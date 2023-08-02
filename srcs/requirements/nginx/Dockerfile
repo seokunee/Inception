@@ -2,7 +2,7 @@
 # FROM nginx:latest
 FROM alpine:3.16
 
-# 어떤 디렉토리에 있는 파일들을 복사해올지 정함. WORKDIR는 명령어 cd랑 같은 것이다. 아직 이 위치에는 아무것도 없고 COPY 명령어로 파일들을 복사해서 WORKDIR에 복사해올 것이다. 
+# 어떤 디렉토리에 있는 파일들을 복사해올지 정함. WORKDIR는 명령어 cd랑 같은 것이다. 아직 이 위치에는 아무것도 없고 COPY 명령어로 파일들을 복사해서 WORKDIR에 복사해올 것이다.
 WORKDIR /usr/share/nginx/html
 
 # 호스트의 현재 디렉토리에 있는 파일을 컨테이너 내부로 복사
@@ -17,6 +17,8 @@ EXPOSE 443
 RUN chown root:root /etc/ssl/private/seokchoi.42.fr.key
 RUN chmod 600 /etc/ssl/private/seokchoi.42.fr.key
 
+
+# nginx를 포그라운드에서 실행시킴. 포그라운드에서 실행시키면 이벤트 로그
 CMD ["nginx", "-g", "daemon off;"]
 
 
