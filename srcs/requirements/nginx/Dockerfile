@@ -3,8 +3,9 @@
 FROM alpine:3.16
 
 RUN apk update && \
-    apk add nginx && \
-	apk add openssl && \
+	apk upgrade && \
+    apk add --no-cache nginx && \
+	apk add --no-cache openssl && \
 	mkdir -p /etc/nginx/ssl/private && \  
 	openssl req -newkey rsa:2048 -nodes -keyout /etc/nginx/ssl/private/seokchoi.42.fr.key \
 	-x509 -days 365 -out /etc/nginx/ssl/private/seokchoi.42.fr.crt \
