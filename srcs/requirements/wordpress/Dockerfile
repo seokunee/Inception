@@ -8,18 +8,18 @@ ARG PHP_VERSION=8
 # 	DB_PASSWORD \
 # 	DB_HOS
 
-ENV DB_NAME=wpdatabase \
-	DB_USER=seokchoi \
-	DB_PASSWORD=1234 \
-	DB_HOST=localhost \
-	WORDPRESS_URL=seokchoi.42.fr \
-	WORDPRESS_TITLE=inception \
-	WORDPRESS_ADMIN_USER=seokchoi  \
-	WORDPRESS_ADMIN_PASSWORD=1234 \
-	WORDPRESS_ADMIN_EMAIL=seokchoi@student.42seoul.kr  \
-	WORDPRESS_USER=user \
-	WORDPRESS_USER_PASSWORD=1234 \
-	WORDPRESS_USER_EMAIL=user@example.com 
+# ENV DB_NAME=wpdatabase \
+# 	DB_USER=seokchoi \
+# 	DB_PASSWORD=1234 \
+# 	DB_HOST=localhost \
+# 	WORDPRESS_URL=seokchoi.42.fr \
+# 	WORDPRESS_TITLE=inception \
+# 	WORDPRESS_ADMIN_USER=seokchoi  \
+# 	WORDPRESS_ADMIN_PASSWORD=1234 \
+# 	WORDPRESS_ADMIN_EMAIL=seokchoi@student.42seoul.kr  \
+# 	WORDPRESS_USER=user \
+# 	WORDPRESS_USER_PASSWORD=1234 \
+# 	WORDPRESS_USER_EMAIL=user@example.com 
 
 RUN apk update && \
 	apk upgrade && \
@@ -43,6 +43,7 @@ RUN apk update && \
 
 WORKDIR /var/www/html
 
+# 컨테이너 내부의 애플리케이션이 특정 포트를 listen하도록 설정
 EXPOSE 9000
 
 COPY conf/wp-config-create.sh /var/www/html/wp-config-create.sh

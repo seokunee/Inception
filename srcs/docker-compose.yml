@@ -1,8 +1,25 @@
 version: "3"
 
 services:
+  mariadb:
+    build:
+      context: ./requirements/mariadb
+      dockerfile: Dockerfile
+    restart: always
+    # ports:
+    #   - "3360:3360"
+    volumes:
+      - mariadb_volume:/var/lib/mysql
+    networks:
+      - my_network
+    environment:
+      MYSQL_ROOT: ${MYSQL_ROOT}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DB_NAME: ${MYSQL_DB_NAME}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_USER_PASSWORD: ${MYSQL_USER_PASSWORD}
+
   nginx:
-    image: nginx
     build:
       context: ./requirements/nginx
       dockerfile: Dockerfile
@@ -12,40 +29,32 @@ services:
       - my_network
 
   wordpress:
-    image: wordpress
     build:
       context: ./requirements/wordpress
       dockerfile: Dockerfile
     volumes:
-      - wordpress_data:/var/www/html
-    ports:
-      - "3000:3000"
+      - wordpress_volume:/var/www/html
+    # ports:
+    #   - "9000:9000"
     networks:
       - my_network
     environment:
-      DB_NAME: ${DB_NAME}
-      DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
-      DB_HOST: ${DB_HOST}
-      DB_CHARSET: ${DB_CHARSET}
-
-  mariadb:
-    image: mariadb
-    build:
-      context: ./requirements/mariadb
-      dockerfile: Dockerfile
-    volumes:
-      - mariadb_data:/var/lib/mysql
-    networks:
-      - my_network
-    environment:
-      MYSQL_ROOT_PASSWORD: ${}
-      MYSQL_DATABASE: ${}
+      DB_NAME: ${MYSQL_DB_NAME}
+      DB_USER: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_USER_PASSWORD}
 
 networks:
   my_network:
     driver: bridge
 
 volumes:
-  wordpress_data:
-  mariadb_data:
+  wordpress_volume:
+    driver_opts:
+      type: volume
+      o: bind
+      device: /home/seokchoi/data/wordpress
+  mariadb_volume:
+    driver_opts:
+    type: volume
+    o: bind
+    device: /home/seokchoi/data/mariadb

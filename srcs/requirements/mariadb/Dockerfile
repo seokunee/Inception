@@ -1,11 +1,11 @@
 FROM alpine:3.16
 
 # 환경 변수 설정
-ENV MYSQL_ROOT=root \
-    MYSQL_ROOT_PASSWORD=rootpass \
-    MYSQL_DB_NAME=inception \
-    MYSQL_USER=seokchoi \
-    MYSQL_USER_PASSWORD=userpass
+# ENV MYSQL_ROOT=root \
+#     MYSQL_ROOT_PASSWORD=rootpass \
+#     MYSQL_DB_NAME=inception \
+#     MYSQL_USER=seokchoi \
+#     MYSQL_USER_PASSWORD=userpass
 
 RUN apk update && \
 	apk add --no-cache mariadb mariadb-client && \
