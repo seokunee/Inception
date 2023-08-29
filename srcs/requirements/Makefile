@@ -1,5 +1,3 @@
-# Mariadb 와 Wordpress를 연결시키는 Makefile
-
 all :
 	mkdir -p ${PWD}/../../data/wordpress
 	mkdir -p ${PWD}/../../data/mariadb

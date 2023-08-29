@@ -38,7 +38,6 @@ WORKDIR /var/www/html
 
 COPY conf/wp-config-create.sh /var/www/html
 COPY tools/wp-install.sh /var/www/html
-# COPY tools/wp-start.sh /var/www
 
 # 컨테이너 내부의 애플리케이션이 특정 포트를 listen하도록 설정
 EXPOSE 9000
@@ -50,7 +49,6 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 
 # wp-config.sh 생성 후 wp-config-create.sh은 필요없어서 삭제
 RUN sh wp-config-create.sh && rm wp-config-create.sh
-# RUN sh wp-install.sh && rm wp-install.sh
 
 CMD ["/bin/sh", "wp-install.sh"]
 
