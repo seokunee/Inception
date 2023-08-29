@@ -1,25 +1,10 @@
-FROM alpine:3.16
+FROM alpine:3.17
 
-ARG PHP_VERSION=8
-
-# ARG PHP_VERSION=8 \
-# 	DB_NAME \
-# 	DB_USER \
-# 	DB_PASSWORD \
-# 	DB_HOS
-
-# ENV DB_NAME=wpdatabase \
-# 	DB_USER=seokchoi \
-# 	DB_PASSWORD=1234 \
-# 	DB_HOST=localhost \
-# 	WORDPRESS_URL=seokchoi.42.fr \
-# 	WORDPRESS_TITLE=inception \
-# 	WORDPRESS_ADMIN_USER=seokchoi  \
-# 	WORDPRESS_ADMIN_PASSWORD=1234 \
-# 	WORDPRESS_ADMIN_EMAIL=seokchoi@student.42seoul.kr  \
-# 	WORDPRESS_USER=user \
-# 	WORDPRESS_USER_PASSWORD=1234 \
-# 	WORDPRESS_USER_EMAIL=user@example.com 
+ARG PHP_VERSION=81 \
+	DB_NAME \
+    DB_USER \
+    DB_PASSWORD \
+    DB_HOST
 
 RUN apk update && \
 	apk upgrade && \
@@ -39,15 +24,24 @@ RUN apk update && \
 	php${PHP_VERSION}-pdo \
 	php${PHP_VERSION}-pdo_mysql \
 	php${PHP_VERSION}-phar \
-	curl 
+	wget \
+	unzip \
+	curl \
+	iputils && \
+	sed -i "s|listen = 127.0.0.1:9000|listen = 0.0.0.0:9000|g" /etc/php${PHP_VERSION}/php-fpm.d/www.conf && \
+	sed -i "s|;listen.owner = nobody|listen.owner = nobody|g" /etc/php${PHP_VERSION}/php-fpm.d/www.conf && \
+	sed -i "s|;listen.group = nobody|listen.group = nobody|g" /etc/php${PHP_VERSION}/php-fpm.d/www.conf && \
+	sed -i "s|;clear_env = no|clear_env = no|g" /etc/php${PHP_VERSION}/php-fpm.d/www.conf && \
+    rm -f /var/cache/apk/*
 
-WORKDIR /var/www/html
+WORKDIR /var/www/html 
+
+COPY conf/wp-config-create.sh /var/www/html
+COPY tools/wp-install.sh /var/www/html
+# COPY tools/wp-start.sh /var/www
 
 # 컨테이너 내부의 애플리케이션이 특정 포트를 listen하도록 설정
 EXPOSE 9000
-
-COPY conf/wp-config-create.sh /var/www/html/wp-config-create.sh
-COPY tools/wp-install.sh /var/www/html/wp-install.sh
 
 # wp-cli 설치
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
@@ -55,6 +49,8 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 	mv wp-cli.phar /usr/local/bin/wp
 
 # wp-config.sh 생성 후 wp-config-create.sh은 필요없어서 삭제
-RUN sh /var/www/html/wp-config-create.sh && rm /var/www/html/wp-config-create.sh
+RUN sh wp-config-create.sh && rm wp-config-create.sh
+# RUN sh wp-install.sh && rm wp-install.sh
 
-CMD ["/bin/sh", "/var/www/html/wp-install.sh"]
+CMD ["/bin/sh", "wp-install.sh"]
+
