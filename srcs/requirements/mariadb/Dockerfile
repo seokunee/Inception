@@ -13,8 +13,6 @@ RUN apk update && \
     sed -i "s|skip-networking|skip-networking=0|g" /etc/my.cnf.d/mariadb-server.cnf && \
     sed -i "s/#bind-address=0.0.0.0/bind-address=0.0.0.0/g" /etc/my.cnf.d/mariadb-server.cnf
 
-# WORKDIR /var/lib/mysql
-
 EXPOSE 3306
 
 COPY tools/db-init.sh /db-init.sh

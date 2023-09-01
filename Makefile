@@ -1,6 +1,6 @@
 DATA_PATH = /home/seokchoi/data
 
-all : 
+all :
 	mkdir -p $(DATA_PATH)/wordpress
 	mkdir -p $(DATA_PATH)/mariadb
 	sudo docker-compose -f srcs/docker-compose.yml up --build -d
@@ -15,12 +15,9 @@ down:
 	sudo docker-compose -f srcs/docker-compose.yml down
 
 clean:	down
-		
+
 fclean:		clean
-			# 맥환경
-			sudo rm -rf $(DATA_PATH) 
-			# VM환경
-			# sudo rm -rf $(DATA_PATH)
+			sudo rm -rf $(DATA_PATH)
 			# docker system prune -a --volumes
 			-sudo docker rm nginx
 			-sudo docker rm mariadb
