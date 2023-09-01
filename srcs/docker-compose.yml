@@ -72,11 +72,11 @@ volumes:
     driver_opts:
       o: bind
       type: none
-      device: /Users/seokhun/Desktop/seokhun/42seoul/inception/data/wordpress
-      # device: /home/seokchoi/data/wordpress // VM환경
+      device: /home/seokchoi/data/wordpress
+      # device: /Users/seokhun/Desktop/seokhun/42seoul/inception/data/wordpress
   mariadb_volume:
     driver_opts:
       o: bind
       type: none
-      device: /Users/seokhun/Desktop/seokhun/42seoul/inception/data/mariadb
-      # device: /home/seokchoi/data/mariadb // VM환경
+      device: /home/seokchoi/data/mariadb
+      # device: /Users/seokhun/Desktop/seokhun/42seoul/inception/data/mariadb
