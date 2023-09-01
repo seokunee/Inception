@@ -27,14 +27,15 @@ RUN apk update && \
 	wget \
 	unzip \
 	curl \
-	iputils && \
+	iputils \
+	tini && \
 	sed -i "s|listen = 127.0.0.1:9000|listen = 0.0.0.0:9000|g" /etc/php${PHP_VERSION}/php-fpm.d/www.conf && \
 	sed -i "s|;listen.owner = nobody|listen.owner = nobody|g" /etc/php${PHP_VERSION}/php-fpm.d/www.conf && \
 	sed -i "s|;listen.group = nobody|listen.group = nobody|g" /etc/php${PHP_VERSION}/php-fpm.d/www.conf && \
 	sed -i "s|;clear_env = no|clear_env = no|g" /etc/php${PHP_VERSION}/php-fpm.d/www.conf && \
     rm -f /var/cache/apk/*
 
-WORKDIR /var/www/html 
+WORKDIR /var/www/html
 
 COPY conf/wp-config-create.sh /var/www/html
 COPY tools/wp-install.sh /var/www/html
@@ -50,5 +51,4 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 # wp-config.sh 생성 후 wp-config-create.sh은 필요없어서 삭제
 RUN sh wp-config-create.sh && rm wp-config-create.sh
 
-CMD ["/bin/sh", "wp-install.sh"]
-
+CMD ["tini", "--", "/bin/sh", "wp-install.sh"]

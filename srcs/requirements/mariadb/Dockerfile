@@ -7,7 +7,7 @@ ARG DB_NAME \
 
 RUN apk update && \
     apk upgrade && \
-	apk add --no-cache mariadb mariadb-client && \
+	apk add --no-cache mariadb mariadb-client tini && \
     mkdir /run/mysqld && \
     chmod 777 /run/mysqld && \
     sed -i "s|skip-networking|skip-networking=0|g" /etc/my.cnf.d/mariadb-server.cnf && \
@@ -19,4 +19,4 @@ COPY tools/db-init.sh /db-init.sh
 
 USER mysql
 
-CMD ["/bin/sh", "/db-init.sh"]
+CMD ["tini", "--", "/bin/sh", "/db-init.sh"]
