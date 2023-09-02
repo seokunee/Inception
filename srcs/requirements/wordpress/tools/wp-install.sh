@@ -8,6 +8,5 @@ if [ ! -f /var/www/html/index.php ]; then
 
 fi
 
-chmod -R 0777 /var/www/html/wp-content/
 
 /usr/sbin/php-fpm81 -F

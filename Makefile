@@ -1,33 +1,34 @@
-DATA_PATH = /home/seokchoi/data
+# DATA_PATH = /home/seokchoi/data
+DATA_PATH = ${PWD}/data
 
 all :
 	mkdir -p $(DATA_PATH)/wordpress
 	mkdir -p $(DATA_PATH)/mariadb
-	sudo docker-compose -f srcs/docker-compose.yml up --build -d
+	docker-compose -f srcs/docker-compose.yml up --build -d
 
 up:
-	sudo docker-compose -f srcs/docker-compose.yml up -d
+	docker-compose -f srcs/docker-compose.yml up -d
 
 build:
-	sudo docker-compose -f srcs/docker-compose.yml --build
+	docker-compose -f srcs/docker-compose.yml --build
 
 down:
-	sudo docker-compose -f srcs/docker-compose.yml down
+	docker-compose -f srcs/docker-compose.yml down
 
 clean:	down
 
 fclean:		clean
-			sudo rm -rf $(DATA_PATH)
+			rm -rf $(DATA_PATH)
 			# docker system prune -a --volumes
-			-sudo docker rm nginx
-			-sudo docker rm mariadb
-			-sudo docker rm wordpress
-			-sudo docker rmi nginx
-			-sudo docker rmi mariadb
-			-sudo docker rmi wordpress
-			-sudo docker volume rm srcs_wordpress_volume
-			-sudo docker volume rm srcs_mariadb_volume
-			-sudo docker network rm srcs_my_network
+			-docker rm nginx
+			-docker rm mariadb
+			-docker rm wordpress
+			-docker rmi nginx
+			-docker rmi mariadb
+			-docker rmi wordpress
+			-docker volume rm srcs_wordpress_volume
+			-docker volume rm srcs_mariadb_volume
+			-docker network rm srcs_my_network
 
 re:			fclean all
 
