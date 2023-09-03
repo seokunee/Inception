@@ -77,4 +77,4 @@ volumes:
     driver_opts:
       o: bind
       type: none
-      device: /home/seokchoi/data/mariaddb
+      device: /home/seokchoi/data/mariadb
